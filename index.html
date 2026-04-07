@@ -3,18 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
     <title>Cousin Crew Hub | Vibe Check 🇰🇪</title>
-    <meta name="description" content="The ultimate hub for the Cousin Crew. Video calls, Instagram-style chat, and vertical Shorts.">
     
-    <script>
-        document.addEventListener('contextmenu', event => event.preventDefault());
-        document.onkeydown = function(e) {
-            if(e.keyCode == 123 || (e.ctrlKey && e.shiftKey && e.keyCode == 73)) return false;
-        }
-    </script>
+    <script src="https://upload-widget.cloudinary.com/latest/global/all.js" type="text/javascript"></script>
 
-    <link rel="stylesheet" href="style.css?v=6.5">
+    <link rel="stylesheet" href="style.css?v=7.0">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -22,9 +15,7 @@
     <div class="bg-glow"></div>
 
     <div class="profile-section">
-        <div class="avatar-glow">
-            <div class="profile-pic"></div>
-        </div>
+        <div class="avatar-glow"><div class="profile-pic"></div></div>
         <h2 class="glitch-text">COUSIN CREW HUB</h2>
         <div class="badge">EST. 2026</div>
     </div>
@@ -40,63 +31,39 @@
                 <div class="person"><b>Timon</b> <span class="role dev">Developer</span></div>
             </div>
         </div>
-
-        <a href="https://whatsapp.com/channel/0029Vb7QkV14dTnBkzndP63f" class="neon-btn whatsapp" target="_blank">
-            <span>📢 WHATSAPP CHANNEL</span>
-        </a>
+        <a href="https://whatsapp.com/channel/0029Vb7QkV14dTnBkzndP63f" class="neon-btn whatsapp" target="_blank"><span>📢 WHATSAPP CHANNEL</span></a>
     </div>
 
     <div id="video-feed" class="shorts-container">
         <div class="shorts-header">
             <span>CREW SHORTS</span>
-            <button class="close-shorts" onclick="toggleVideos()">✕</button>
-        </div>
-        
-        <div class="video-scroll-area">
-            <div class="short-card">
-                <video src="PASTE_VIDEO_URL_HERE" loop playsinline onclick="this.paused ? this.play() : this.pause()"></video>
-                <div class="video-info">
-                    <p><b>@Blessing</b> • The Chairman's Vibe 🇰🇪</p>
-                </div>
-            </div>
-            <div class="short-card">
-                <video src="PASTE_VIDEO_URL_HERE" loop playsinline onclick="this.paused ? this.play() : this.pause()"></video>
-                <div class="video-info">
-                    <p><b>@Timon</b> • Building the Hub 💻</p>
-                </div>
+            <div class="header-btns">
+                <button class="upload-btn" onclick="openUploadWidget()">➕ Upload</button>
+                <button class="close-shorts" onclick="toggleVideos()">✕</button>
             </div>
         </div>
+        <div id="shorts-area" class="video-scroll-area">
+            </div>
     </div>
 
     <div id="call-container"></div>
 
     <div class="dock-container">
         <div class="dock">
-            <div class="dock-item" onclick="location.reload()">
-                <img src="https://img.icons8.com/fluency/48/home.png" alt="Home">
-            </div>
-            <div class="dock-item" onclick="toggleVideos()">
-                <img src="https://img.icons8.com/fluency/48/video-playlist.png" alt="Shorts">
-            </div>
+            <div class="dock-item" onclick="location.reload()"><img src="https://img.icons8.com/fluency/48/home.png"></div>
+            <div class="dock-item" onclick="toggleVideos()"><img src="https://img.icons8.com/fluency/48/video-playlist.png"></div>
             <div class="dock-item main" onclick="toggleChat()">
-                <img src="https://img.icons8.com/fluency/48/speech-bubble.png" alt="Chat">
+                <img src="https://img.icons8.com/fluency/48/speech-bubble.png">
                 <div class="ping"></div>
             </div>
-            <div class="dock-item" onclick="startGlobalCall()">
-                <img src="https://img.icons8.com/fluency/48/video-call.png" alt="Call">
-            </div>
-            <a href="https://www.instagram.com/vetruk_x" class="dock-item" target="_blank">
-                <img src="https://img.icons8.com/fluency/48/instagram-new.png" alt="IG">
-            </a>
+            <div class="dock-item" onclick="startGlobalCall()"><img src="https://img.icons8.com/fluency/48/video-call.png"></div>
+            <a href="https://www.instagram.com/vetruk_x" class="dock-item" target="_blank"><img src="https://img.icons8.com/fluency/48/instagram-new.png"></a>
         </div>
     </div>
 
     <div id="chat-box" class="chat-vibe">
         <div class="chat-head">
-            <div class="user-info">
-                <div class="status-dot"></div>
-                <span>CREW LOBBY</span>
-            </div>
+            <div class="user-info"><div class="status-dot"></div><span>CREW LOBBY</span></div>
             <button class="close-chat" onclick="toggleChat()">✕</button>
         </div>
         <div id="chat-window" class="chat-body"></div>
@@ -126,64 +93,76 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
         const chatRef = ref(db, "global_chat");
+        const shortsRef = ref(db, "crew_shorts");
 
-        window.toggleChat = function() {
-            document.getElementById('chat-box').classList.toggle('active');
-        }
+        const uNameInput = document.getElementById("user-name");
 
-        window.toggleVideos = function() {
-            const feed = document.getElementById('video-feed');
-            const isVisible = feed.style.display === 'flex';
-            feed.style.display = isVisible ? 'none' : 'flex';
-            
-            if (!isVisible) {
-                const firstVid = feed.querySelector('video');
-                if (firstVid) firstVid.play();
-            } else {
-                feed.querySelectorAll('video').forEach(v => v.pause());
-            }
-        }
+        // CLOUDINARY UPLOAD WIDGET
+        window.openUploadWidget = function() {
+            const author = uNameInput.value.trim() || "Crew Member";
+            cloudinary.openUploadWidget({
+                cloudName: "dfx2eovxk",
+                uploadPreset: "icb9pwjk",
+                sources: ["local", "camera"],
+                clientAllowedFormats: ["mp4", "mov", "webm"],
+                maxFileSize: 50000000,
+                multiple: false,
+                theme: "minimal"
+            }, (error, result) => {
+                if (!error && result && result.event === "success") {
+                    push(shortsRef, { 
+                        url: result.info.secure_url, 
+                        user: author, 
+                        timestamp: serverTimestamp() 
+                    });
+                }
+            });
+        };
 
-        const sendBtn = document.getElementById("send-btn");
-        const uName = document.getElementById("user-name");
-        const uMsg = document.getElementById("user-msg");
-        const chatWindow = document.getElementById("chat-window");
+        // SYNC SHORTS FROM FIREBASE
+        onChildAdded(shortsRef, (snapshot) => {
+            const data = snapshot.val();
+            const shortHtml = `
+                <div class="short-card">
+                    <video src="${data.url}" loop playsinline onclick="this.paused ? this.play() : this.pause()"></video>
+                    <div class="video-info"><p><b>@${data.user}</b> • New Vibe 🇰🇪</p></div>
+                </div>`;
+            document.getElementById('shorts-area').insertAdjacentHTML('afterbegin', shortHtml);
+        });
 
-        sendBtn.onclick = () => {
-            const name = uName.value.trim() || "Guest";
-            const text = uMsg.value.trim();
+        // Chat Logic
+        window.toggleChat = () => document.getElementById('chat-box').classList.toggle('active');
+        window.toggleVideos = () => {
+            const v = document.getElementById('video-feed');
+            v.style.display = (v.style.display === 'flex') ? 'none' : 'flex';
+            if(v.style.display === 'none') v.querySelectorAll('video').forEach(vid => vid.pause());
+        };
+
+        document.getElementById("send-btn").onclick = () => {
+            const text = document.getElementById("user-msg").value.trim();
             if (text !== "") {
-                push(chatRef, { name, text, timestamp: serverTimestamp() });
-                uMsg.value = "";
-                uMsg.focus();
+                push(chatRef, { name: uNameInput.value || "Guest", text, timestamp: serverTimestamp() });
+                document.getElementById("user-msg").value = "";
             }
         };
 
         onChildAdded(chatRef, (snapshot) => {
             const data = snapshot.val();
             const msgDiv = document.createElement("div");
-            msgDiv.className = `msg ${data.name === uName.value ? 'me' : 'others'}`;
+            msgDiv.className = `msg ${data.name === uNameInput.value ? 'me' : 'others'}`;
             msgDiv.innerHTML = `<b>${data.name}</b> ${data.text}`;
-            chatWindow.appendChild(msgDiv);
-            chatWindow.scrollTop = chatWindow.scrollHeight;
+            document.getElementById("chat-window").appendChild(msgDiv);
+            document.getElementById("chat-window").scrollTop = document.getElementById("chat-window").scrollHeight;
         });
 
+        // Video Call
         window.startGlobalCall = async function() {
-            const callContainer = document.getElementById('call-container');
-            callContainer.style.display = 'block';
-            const appID = 1623142508; 
-            const serverSecret = "1b29c844532e8ab6c62ce95f6d452400";
-            const roomID = "CousinCrew_Lobby";
-            const userID = "U_" + Math.floor(Math.random() * 1000);
+            const container = document.getElementById('call-container');
+            container.style.display = 'block';
             const { ZegoUIKitPrebuilt } = await import('https://unpkg.com/@zegocloud/zego-uikit-prebuilt-web@latest/index.js');
-            const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, roomID, userID, uName.value || userID);
+            const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(1623142508, "1b29c844532e8ab6c62ce95f6d452400", "CousinCrew_Lobby", "U"+Math.random(), uNameInput.value || "Guest");
             const zp = ZegoUIKitPrebuilt.create(kitToken);
-            zp.joinRoom({
-                container: callContainer,
-                scenario: { mode: ZegoUIKitPrebuilt.GroupCall },
-                showPreJoinView: true,
-                onLeaveRoom: () => { callContainer.style.display = 'none'; location.reload(); }
-            });
+            zp.joinRoom({ container, scenario: { mode: ZegoUIKitPrebuilt.GroupCall }, onLeaveRoom: () => location.reload() });
         }
     </script>
 </body>
