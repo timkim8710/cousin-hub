@@ -1,16 +1,33 @@
 {
   "name": "Core Connect",
-  "short_name": "CoreConnect",
+  "short_name": "CC Hub",
+  "description": "The elite ecosystem for global collaboration and team networking.",
   "start_url": "index.html",
   "display": "standalone",
+  "orientation": "portrait",
   "background_color": "#080808",
   "theme_color": "#00f0ff",
   "icons": [
+    {
+      "src": "icon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
     {
       "src": "icon.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
     }
-  ]
+  ],
+  "screenshots": [
+    {
+      "src": "icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "label": "Core Connect Dashboard"
+    }
+  ],
+  "categories": ["productivity", "social", "business"]
 }
