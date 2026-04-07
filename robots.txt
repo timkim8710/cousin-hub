@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Sitemap: https://timkim8710.github.io/cousin-hub/sitemap.xml
+
+# Boost indexing speed for Google and Bing
+Crawl-delay: 1
