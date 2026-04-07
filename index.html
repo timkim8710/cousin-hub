@@ -5,10 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <title>Cousin Crew Hub | Vibe Check 🇰🇪</title>
-    <meta name="description" content="The ultimate hub for the Cousin Crew. Video calls, Instagram-style chat, and crew registry. Built by Timon.">
-    <meta name="keywords" content="Cousin Crew Hub, vetruk_x, Meru Maua, Kenya Teen Community, Timon Developer">
-    <meta name="robots" content="index, follow">
-
+    <meta name="description" content="The ultimate hub for the Cousin Crew. Video calls, Instagram-style chat, and vertical Shorts.">
+    
     <script>
         document.addEventListener('contextmenu', event => event.preventDefault());
         document.onkeydown = function(e) {
@@ -16,7 +14,7 @@
         }
     </script>
 
-    <link rel="stylesheet" href="style.css?v=6.0">
+    <link rel="stylesheet" href="style.css?v=6.5">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -46,10 +44,28 @@
         <a href="https://whatsapp.com/channel/0029Vb7QkV14dTnBkzndP63f" class="neon-btn whatsapp" target="_blank">
             <span>📢 WHATSAPP CHANNEL</span>
         </a>
+    </div>
 
-        <a href="https://www.instagram.com/vetruk_x" class="neon-btn instagram" target="_blank">
-            <span>📸 INSTAGRAM @VETRUK_X</span>
-        </a>
+    <div id="video-feed" class="shorts-container">
+        <div class="shorts-header">
+            <span>CREW SHORTS</span>
+            <button class="close-shorts" onclick="toggleVideos()">✕</button>
+        </div>
+        
+        <div class="video-scroll-area">
+            <div class="short-card">
+                <video src="PASTE_VIDEO_URL_HERE" loop playsinline onclick="this.paused ? this.play() : this.pause()"></video>
+                <div class="video-info">
+                    <p><b>@Blessing</b> • The Chairman's Vibe 🇰🇪</p>
+                </div>
+            </div>
+            <div class="short-card">
+                <video src="PASTE_VIDEO_URL_HERE" loop playsinline onclick="this.paused ? this.play() : this.pause()"></video>
+                <div class="video-info">
+                    <p><b>@Timon</b> • Building the Hub 💻</p>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div id="call-container"></div>
@@ -59,15 +75,15 @@
             <div class="dock-item" onclick="location.reload()">
                 <img src="https://img.icons8.com/fluency/48/home.png" alt="Home">
             </div>
-            <div class="dock-item" onclick="startGlobalCall()">
-                <img src="https://img.icons8.com/fluency/48/video-call.png" alt="Call">
+            <div class="dock-item" onclick="toggleVideos()">
+                <img src="https://img.icons8.com/fluency/48/video-playlist.png" alt="Shorts">
             </div>
             <div class="dock-item main" onclick="toggleChat()">
                 <img src="https://img.icons8.com/fluency/48/speech-bubble.png" alt="Chat">
                 <div class="ping"></div>
             </div>
-            <div class="dock-item" onclick="window.open('https://github.com/vetruk-x', '_blank')">
-                <img src="https://img.icons8.com/fluency/48/controller.png" alt="Game">
+            <div class="dock-item" onclick="startGlobalCall()">
+                <img src="https://img.icons8.com/fluency/48/video-call.png" alt="Call">
             </div>
             <a href="https://www.instagram.com/vetruk_x" class="dock-item" target="_blank">
                 <img src="https://img.icons8.com/fluency/48/instagram-new.png" alt="IG">
@@ -113,6 +129,19 @@
 
         window.toggleChat = function() {
             document.getElementById('chat-box').classList.toggle('active');
+        }
+
+        window.toggleVideos = function() {
+            const feed = document.getElementById('video-feed');
+            const isVisible = feed.style.display === 'flex';
+            feed.style.display = isVisible ? 'none' : 'flex';
+            
+            if (!isVisible) {
+                const firstVid = feed.querySelector('video');
+                if (firstVid) firstVid.play();
+            } else {
+                feed.querySelectorAll('video').forEach(v => v.pause());
+            }
         }
 
         const sendBtn = document.getElementById("send-btn");
