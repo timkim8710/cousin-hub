@@ -7,7 +7,7 @@
     
     <script src="https://upload-widget.cloudinary.com/latest/global/all.js" type="text/javascript"></script>
 
-    <link rel="stylesheet" href="style.css?v=8.0">
+    <link rel="stylesheet" href="style.css?v=8.5">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -17,11 +17,11 @@
     <div id="auth-overlay" class="auth-screen">
         <div class="auth-card">
             <h2 class="glitch-text">CREW PORTAL</h2>
-            <p>Sign up or login to enter the hub</p>
+            <p>Join the lobby to see the vibes</p>
             <div class="auth-inputs">
-                <input type="text" id="auth-name" placeholder="Full Name (e.g. Blessing)">
+                <input type="text" id="auth-name" placeholder="Full Name (e.g. Timon)">
                 <input type="email" id="auth-email" placeholder="Email Address">
-                <input type="password" id="auth-pass" placeholder="Password">
+                <input type="password" id="auth-pass" placeholder="Password (Min 6 chars)">
             </div>
             <div class="auth-btns">
                 <button onclick="handleSignUp()" class="auth-secondary">Join Crew</button>
@@ -108,16 +108,19 @@
 
         let currentUsername = "Guest";
 
-        // AUTH LOGIC
+        // --- AUTH LOGIC ---
         window.handleSignUp = () => {
             const name = document.getElementById('auth-name').value.trim();
             const email = document.getElementById('auth-email').value;
             const pass = document.getElementById('auth-pass').value;
-            if(!name) return alert("Enter your name!");
+            const errorLabel = document.getElementById('auth-error');
 
-            createUserWithEmailAndPassword(auth, email, pass).then((res) => {
-                updateProfile(res.user, { displayName: name }).then(() => location.reload());
-            }).catch(err => document.getElementById('auth-error').innerText = err.message);
+            if(!name || !email || !pass) { errorLabel.innerText = "Fill in all fields!"; return; }
+
+            createUserWithEmailAndPassword(auth, email, pass).then(async (res) => {
+                await updateProfile(res.user, { displayName: name });
+                location.reload(); // Refresh to lock in the new name
+            }).catch(err => errorLabel.innerText = err.message);
         };
 
         window.handleLogin = () => {
@@ -133,13 +136,13 @@
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 document.getElementById('auth-overlay').style.display = 'none';
-                currentUsername = user.displayName || "User";
+                currentUsername = user.displayName || "Crew Member";
             } else {
                 document.getElementById('auth-overlay').style.display = 'flex';
             }
         });
 
-        // SHORTS & UPLOAD
+        // --- SHORTS & UPLOAD ---
         window.openUploadWidget = () => {
             cloudinary.openUploadWidget({
                 cloudName: "dfx2eovxk", uploadPreset: "icb9pwjk", theme: "minimal"
@@ -153,11 +156,11 @@
         onChildAdded(shortsRef, (snap) => {
             const data = snap.val();
             const html = `<div class="short-card"><video src="${data.url}" loop playsinline onclick="this.paused?this.play():this.pause()"></video>
-                          <div class="video-info"><p><b>@${data.user}</b> • Hub Upload</p></div></div>`;
+                          <div class="video-info"><p><b>@${data.user}</b> • Hub Viral</p></div></div>`;
             document.getElementById('shorts-area').insertAdjacentHTML('afterbegin', html);
         });
 
-        // CHAT
+        // --- CHAT LOGIC ---
         document.getElementById("send-btn").onclick = () => {
             const msg = document.getElementById("user-msg").value.trim();
             if (msg) {
@@ -175,11 +178,12 @@
             document.getElementById("chat-window").scrollTop = document.getElementById("chat-window").scrollHeight;
         });
 
-        // UI HELPERS
+        // --- UI HELPERS ---
         window.toggleChat = () => document.getElementById('chat-box').classList.toggle('active');
         window.toggleVideos = () => {
             const f = document.getElementById('video-feed');
             f.style.display = f.style.display === 'flex' ? 'none' : 'flex';
+            if(f.style.display === 'none') f.querySelectorAll('video').forEach(vid => vid.pause());
         };
 
         window.startGlobalCall = async () => {
