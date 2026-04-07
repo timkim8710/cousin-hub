@@ -3,13 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>COUSIN CREW HUB | VIBE CHECK 🇰🇪</title>
     
-    <meta name="description" content="The ultimate hub for the Cousin Crew. Video calls, secure chat, and crew registry. Built by Timon.">
-    <meta name="keywords" content="Cousin Crew, vetruk_x, Meru Maua, Kenya Teen Community">
+    <title>Cousin Crew Hub | Vibe Check 🇰🇪</title>
+    <meta name="description" content="The ultimate hub for the Cousin Crew. Video calls, Instagram-style chat, and crew registry. Built by Timon.">
+    <meta name="keywords" content="Cousin Crew Hub, vetruk_x, Meru Maua, Kenya Teen Community, Timon Developer">
     <meta name="robots" content="index, follow">
 
-    <link rel="stylesheet" href="style.css?v=5.0">
+    <script>
+        document.addEventListener('contextmenu', event => event.preventDefault());
+        document.onkeydown = function(e) {
+            if(e.keyCode == 123 || (e.ctrlKey && e.shiftKey && e.keyCode == 73)) return false;
+        }
+    </script>
+
+    <link rel="stylesheet" href="style.css?v=6.0">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -37,47 +44,118 @@
         </div>
 
         <a href="https://whatsapp.com/channel/0029Vb7QkV14dTnBkzndP63f" class="neon-btn whatsapp" target="_blank">
-            <span>WHATSAPP CHANNEL</span>
+            <span>📢 WHATSAPP CHANNEL</span>
         </a>
 
         <a href="https://www.instagram.com/vetruk_x" class="neon-btn instagram" target="_blank">
-            <span>INSTAGRAM @VETRUK_X</span>
+            <span>📸 INSTAGRAM @VETRUK_X</span>
         </a>
     </div>
 
     <div id="call-container"></div>
 
-    <div class="dock">
-        <div class="dock-item" onclick="startGlobalCall()">
-            <img src="https://img.icons8.com/fluency/48/video-call.png" alt="Call">
+    <div class="dock-container">
+        <div class="dock">
+            <div class="dock-item" onclick="location.reload()">
+                <img src="https://img.icons8.com/fluency/48/home.png" alt="Home">
+            </div>
+            <div class="dock-item" onclick="startGlobalCall()">
+                <img src="https://img.icons8.com/fluency/48/video-call.png" alt="Call">
+            </div>
+            <div class="dock-item main" onclick="toggleChat()">
+                <img src="https://img.icons8.com/fluency/48/speech-bubble.png" alt="Chat">
+                <div class="ping"></div>
+            </div>
+            <div class="dock-item" onclick="window.open('https://github.com/vetruk-x', '_blank')">
+                <img src="https://img.icons8.com/fluency/48/controller.png" alt="Game">
+            </div>
+            <a href="https://www.instagram.com/vetruk_x" class="dock-item" target="_blank">
+                <img src="https://img.icons8.com/fluency/48/instagram-new.png" alt="IG">
+            </a>
         </div>
-        
-        <div class="dock-item main" onclick="toggleChat()">
-            <img src="https://img.icons8.com/fluency/48/speech-bubble.png" alt="Chat">
-            <div class="ping"></div>
-        </div>
-
-        <a href="https://www.instagram.com/vetruk_x" class="dock-item" target="_blank">
-            <img src="https://img.icons8.com/fluency/48/instagram-new.png" alt="IG">
-        </a>
     </div>
 
     <div id="chat-box" class="chat-vibe">
         <div class="chat-head">
-            <span>LOBBY CHAT</span>
-            <button onclick="toggleChat()">✕</button>
+            <div class="user-info">
+                <div class="status-dot"></div>
+                <span>CREW LOBBY</span>
+            </div>
+            <button class="close-chat" onclick="toggleChat()">✕</button>
         </div>
         <div id="chat-window" class="chat-body"></div>
         <div class="chat-footer">
-            <input type="text" id="user-name" placeholder="Name">
-            <input type="text" id="user-msg" placeholder="Type here...">
-            <button id="send-btn">SEND</button>
+            <div class="input-pill">
+                <input type="text" id="user-name" placeholder="Name" maxlength="10">
+                <input type="text" id="user-msg" placeholder="Message..." maxlength="100">
+                <button id="send-btn">Send</button>
+            </div>
         </div>
     </div>
 
     <script type="module">
-        // Keep your existing Firebase and Zego logic here!
-        // (Use the logic from Build 4.2 provided previously)
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getDatabase, ref, push, onChildAdded, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCXArPj4WErtRkb2qfaDueaWZm9tdAbSGI",
+            authDomain: "street-humor-hub.firebaseapp.com",
+            projectId: "street-humor-hub",
+            storageBucket: "street-humor-hub.firebasestorage.app",
+            messagingSenderId: "1010209458338",
+            appId: "1:1010209458338:web:548911c5d0e36d1e3ceffb",
+            databaseURL: "https://street-humor-hub-default-rtdb.firebaseio.com"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const chatRef = ref(db, "global_chat");
+
+        window.toggleChat = function() {
+            document.getElementById('chat-box').classList.toggle('active');
+        }
+
+        const sendBtn = document.getElementById("send-btn");
+        const uName = document.getElementById("user-name");
+        const uMsg = document.getElementById("user-msg");
+        const chatWindow = document.getElementById("chat-window");
+
+        sendBtn.onclick = () => {
+            const name = uName.value.trim() || "Guest";
+            const text = uMsg.value.trim();
+            if (text !== "") {
+                push(chatRef, { name, text, timestamp: serverTimestamp() });
+                uMsg.value = "";
+                uMsg.focus();
+            }
+        };
+
+        onChildAdded(chatRef, (snapshot) => {
+            const data = snapshot.val();
+            const msgDiv = document.createElement("div");
+            msgDiv.className = `msg ${data.name === uName.value ? 'me' : 'others'}`;
+            msgDiv.innerHTML = `<b>${data.name}</b> ${data.text}`;
+            chatWindow.appendChild(msgDiv);
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+        });
+
+        window.startGlobalCall = async function() {
+            const callContainer = document.getElementById('call-container');
+            callContainer.style.display = 'block';
+            const appID = 1623142508; 
+            const serverSecret = "1b29c844532e8ab6c62ce95f6d452400";
+            const roomID = "CousinCrew_Lobby";
+            const userID = "U_" + Math.floor(Math.random() * 1000);
+            const { ZegoUIKitPrebuilt } = await import('https://unpkg.com/@zegocloud/zego-uikit-prebuilt-web@latest/index.js');
+            const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, roomID, userID, uName.value || userID);
+            const zp = ZegoUIKitPrebuilt.create(kitToken);
+            zp.joinRoom({
+                container: callContainer,
+                scenario: { mode: ZegoUIKitPrebuilt.GroupCall },
+                showPreJoinView: true,
+                onLeaveRoom: () => { callContainer.style.display = 'none'; location.reload(); }
+            });
+        }
     </script>
 </body>
 </html>
