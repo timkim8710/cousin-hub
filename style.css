@@ -1,55 +1,180 @@
+/* --- COUSIN CREW HUB: VIBRANT TEEN THEME --- */
+
 :root {
-    --primary-cyan: #00d4ff;
-    --glass: rgba(255, 255, 255, 0.05);
-    --border: rgba(255, 255, 255, 0.1);
+    --bg-dark: #090212;
+    --neon-pink: #ff007a;
+    --neon-cyan: #00f0ff;
+    --neon-purple: #9d00ff;
+    --glass-white: rgba(255, 255, 255, 0.08);
+    --glass-border: rgba(255, 255, 255, 0.12);
+    --text-main: #ffffff;
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; user-select: none; }
+/* BASE RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Outfit', 'Inter', sans-serif;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
 
 body {
-    background: #050505; color: white; display: flex; flex-direction: column;
-    align-items: center; min-height: 100vh; padding: 40px 20px 140px 20px;
+    background: var(--bg-dark);
+    color: var(--text-main);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 60px 20px 160px; /* Extra bottom padding for the floating dock */
+    overflow-x: hidden;
 }
 
-/* CARDS */
-.links-container { width: 100%; max-width: 400px; display: flex; flex-direction: column; gap: 14px; }
-.link-card {
-    background: var(--glass); border: 1px solid var(--border); backdrop-filter: blur(20px);
-    padding: 20px; border-radius: 20px; text-decoration: none; color: white;
-    font-weight: 700; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+/* ANIMATED MESH BACKGROUND */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 10% 20%, rgba(157, 0, 255, 0.12) 0%, transparent 45%),
+        radial-gradient(circle at 90% 80%, rgba(0, 240, 255, 0.12) 0%, transparent 45%);
+    z-index: -1;
+    filter: blur(50px);
+    animation: flow 10s infinite alternate ease-in-out;
 }
 
-/* REGISTRY */
-.crew-box { text-align: left; background: rgba(0, 0, 0, 0.2); cursor: default; }
-.registry-title { font-size: 0.65rem; letter-spacing: 4px; margin-bottom: 18px; color: var(--primary-cyan); text-align: center; }
-.crew-grid { display: flex; flex-direction: column; gap: 10px; }
-.crew-item { display: flex; justify-content: space-between; font-size: 0.85rem; padding-bottom: 6px; border-bottom: 1px solid rgba(255,255,255,0.05); }
-.crew-item span { color: #555; font-size: 0.65rem; text-transform: uppercase; font-weight: 900; }
-
-/* TASKBAR */
-.taskbar {
-    position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%);
-    width: 260px; height: 65px; background: rgba(255, 255, 255, 0.06);
-    backdrop-filter: blur(25px); border: 1px solid var(--border);
-    border-radius: 35px; display: flex; justify-content: space-evenly; align-items: center; z-index: 10000;
-}
-.task-icon img { width: 22px; height: 22px; opacity: 0.7; }
-.main-btn { background: rgba(0, 212, 255, 0.1); border-radius: 50%; width: 52px; height: 52px; border: 1px solid rgba(0, 212, 255, 0.2); }
-
-/* CALL CONTAINER */
-#call-container {
-    display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-    z-index: 99999; background: #000;
+@keyframes flow {
+    from { transform: scale(1); }
+    to { transform: scale(1.1); }
 }
 
-/* CHAT */
-.chat-popup {
-    position: fixed; bottom: -700px; right: 20px; width: calc(100% - 40px); max-width: 370px; height: 500px;
-    background: #0a0a0a; border: 1px solid #222; border-radius: 28px; display: flex; flex-direction: column;
-    transition: 0.5s ease; z-index: 9999;
+/* PROFILE & HEADER */
+.profile-section {
+    text-align: center;
+    margin-bottom: 45px;
 }
-.chat-popup.active { bottom: 100px; }
-.msg.me { background: var(--primary-cyan); color: black; align-self: flex-end; border-radius: 18px 18px 4px 18px; padding: 10px; margin: 5px; }
-.msg.others { background: #1a1a1a; align-self: flex-start; border-radius: 18px 18px 18px 4px; padding: 10px; margin: 5px; }
 
-footer { padding: 20px 0; color: #333; font-size: 0.65rem; text-align: center; }
+.avatar-glow {
+    width: 115px;
+    height: 115px;
+    padding: 4px;
+    background: linear-gradient(45deg, var(--neon-pink), var(--neon-cyan));
+    border-radius: 50%;
+    margin: 0 auto 20px;
+    box-shadow: 0 0 35px rgba(255, 0, 122, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-pic {
+    width: 100%;
+    height: 100%;
+    background: #1a1a1a;
+    border-radius: 50%;
+    border: 3px solid var(--bg-dark);
+    background-image: url('https://img.icons8.com/bubbles/100/group-foreground-selected.png'); /* Default icon */
+    background-size: cover;
+}
+
+h2 {
+    font-size: 1.9rem;
+    font-weight: 900;
+    letter-spacing: -1px;
+    text-transform: uppercase;
+    text-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
+}
+
+.badge {
+    background: #fff;
+    color: #000;
+    display: inline-block;
+    padding: 5px 15px;
+    border-radius: 30px;
+    font-weight: 800;
+    font-size: 0.7rem;
+    margin-top: 12px;
+    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
+}
+
+/* CARDS & REGISTRY */
+.links-container {
+    width: 100%;
+    max-width: 420px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.registry-card {
+    background: var(--glass-white);
+    backdrop-filter: blur(25px);
+    border: 1px solid var(--glass-border);
+    border-radius: 32px;
+    padding: 25px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+}
+
+.card-label {
+    font-size: 0.75rem;
+    color: var(--neon-cyan);
+    letter-spacing: 4px;
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: 800;
+}
+
+.crew-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.person {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1rem;
+    font-weight: 600;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.role {
+    font-size: 0.65rem;
+    padding: 5px 12px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #bbb;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.role.dev {
+    background: var(--neon-cyan);
+    color: #000;
+    box-shadow: 0 0 10px var(--neon-cyan);
+}
+
+/* VIBRANT ACTION BUTTONS */
+.neon-btn {
+    padding: 22px;
+    border-radius: 24px;
+    text-decoration: none;
+    font-weight: 900;
+    text-align: center;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: 2px solid transparent;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+}
+
+.whatsapp {
+    background: rgba(37, 211, 102, 0.15);
+    border-color: #25d366;
+    color: #25d366;
+    box-shadow: 0 0 20px rgba(37, 211,
