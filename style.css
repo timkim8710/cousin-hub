@@ -1,180 +1,73 @@
-/* --- COUSIN CREW HUB: VIBRANT TEEN THEME --- */
-
 :root {
-    --bg-dark: #090212;
+    --bg: #000;
     --neon-pink: #ff007a;
     --neon-cyan: #00f0ff;
     --neon-purple: #9d00ff;
-    --glass-white: rgba(255, 255, 255, 0.08);
-    --glass-border: rgba(255, 255, 255, 0.12);
-    --text-main: #ffffff;
+    --ig-grad: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    --glass: rgba(255, 255, 255, 0.08);
 }
 
-/* BASE RESET */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Outfit', 'Inter', sans-serif;
-    user-select: none;
-    -webkit-tap-highlight-color: transparent;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; user-select: none; }
 
 body {
-    background: var(--bg-dark);
-    color: var(--text-main);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-height: 100vh;
-    padding: 60px 20px 160px; /* Extra bottom padding for the floating dock */
-    overflow-x: hidden;
+    background: var(--bg); color: white; display: flex; flex-direction: column;
+    align-items: center; min-height: 100vh; padding: 60px 20px 180px; overflow-x: hidden;
 }
 
-/* ANIMATED MESH BACKGROUND */
-body::before {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: 
-        radial-gradient(circle at 10% 20%, rgba(157, 0, 255, 0.12) 0%, transparent 45%),
-        radial-gradient(circle at 90% 80%, rgba(0, 240, 255, 0.12) 0%, transparent 45%);
+.bg-glow {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: radial-gradient(circle at 10% 20%, rgba(157, 0, 255, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(0, 240, 255, 0.1) 0%, transparent 40%);
     z-index: -1;
-    filter: blur(50px);
-    animation: flow 10s infinite alternate ease-in-out;
 }
 
-@keyframes flow {
-    from { transform: scale(1); }
-    to { transform: scale(1.1); }
-}
+/* CARDS */
+.links-container { width: 100%; max-width: 400px; display: flex; flex-direction: column; gap: 15px; }
+.link-card { background: var(--glass); backdrop-filter: blur(25px); border: 1px solid rgba(255,255,255,0.1); border-radius: 30px; padding: 25px; }
+.card-label { font-size: 0.7rem; color: var(--neon-cyan); letter-spacing: 3px; text-align: center; margin-bottom: 15px; }
+.crew-list { display: flex; flex-direction: column; gap: 10px; }
+.person { display: flex; justify-content: space-between; font-size: 0.9rem; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 5px; }
+.role { font-size: 0.6rem; padding: 3px 8px; border-radius: 8px; background: rgba(255,255,255,0.1); font-weight: 800; }
+.role.dev { background: var(--neon-cyan); color: #000; }
 
-/* PROFILE & HEADER */
-.profile-section {
-    text-align: center;
-    margin-bottom: 45px;
-}
+/* NEON BUTTONS */
+.neon-btn { padding: 20px; border-radius: 22px; text-decoration: none; font-weight: 800; text-align: center; border: 2px solid transparent; transition: 0.2s; }
+.whatsapp { border-color: #25d366; color: #25d366; background: rgba(37,211,102,0.1); }
+.instagram { border-color: var(--neon-pink); color: var(--neon-pink); background: rgba(255,0,122,0.1); }
 
-.avatar-glow {
-    width: 115px;
-    height: 115px;
-    padding: 4px;
-    background: linear-gradient(45deg, var(--neon-pink), var(--neon-cyan));
-    border-radius: 50%;
-    margin: 0 auto 20px;
-    box-shadow: 0 0 35px rgba(255, 0, 122, 0.4);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+/* FLOATING DOCK TASKBAR */
+.dock-container { position: fixed; bottom: 25px; left: 0; width: 100%; display: flex; justify-content: center; z-index: 10000; pointer-events: none; }
+.dock { 
+    pointer-events: auto; background: rgba(255, 255, 255, 0.07); backdrop-filter: blur(30px); 
+    border: 1px solid rgba(255, 255, 255, 0.15); padding: 10px 20px; border-radius: 35px; 
+    display: flex; align-items: center; gap: 18px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
 }
+.dock-item { width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); cursor: pointer; position: relative; }
+.dock-item img { width: 100%; height: 100%; }
+.dock-item:hover { transform: translateY(-10px) scale(1.2); }
+.dock-item.main { width: 62px; height: 62px; background: linear-gradient(135deg, var(--neon-purple), var(--neon-pink)); border-radius: 50%; padding: 12px; margin-top: -35px; border: 4px solid var(--bg); }
+.ping { position: absolute; top: 2px; right: 2px; width: 12px; height: 12px; background: #ff3b30; border-radius: 50%; border: 2px solid #000; animation: pulse 2s infinite; }
 
-.profile-pic {
-    width: 100%;
-    height: 100%;
-    background: #1a1a1a;
-    border-radius: 50%;
-    border: 3px solid var(--bg-dark);
-    background-image: url('https://img.icons8.com/bubbles/100/group-foreground-selected.png'); /* Default icon */
-    background-size: cover;
+@keyframes pulse { 0% { transform: scale(0.9); } 70% { transform: scale(1.1); box-shadow: 0 0 10px #ff3b30; } 100% { transform: scale(0.9); } }
+
+/* INSTAGRAM CHAT */
+.chat-vibe {
+    position: fixed; bottom: -800px; right: 20px; width: calc(100% - 40px); max-width: 380px; height: 65vh;
+    background: #000; border-radius: 30px; border: 1px solid #262626; transition: 0.5s ease; z-index: 9999; display: flex; flex-direction: column;
 }
+.chat-vibe.active { bottom: 120px; }
+.chat-head { padding: 15px 20px; display: flex; justify-content: space-between; border-bottom: 1px solid #262626; font-weight: 800; }
+.chat-body { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 4px; }
+.msg { padding: 10px 16px; border-radius: 20px; font-size: 0.95rem; max-width: 75%; line-height: 1.4; }
+.msg.me { align-self: flex-end; background: var(--ig-grad); color: white; border-bottom-right-radius: 4px; }
+.msg.others { align-self: flex-start; background: #262626; color: white; border-bottom-left-radius: 4px; }
+.msg b { display: block; font-size: 0.6rem; opacity: 0.6; margin-bottom: 2px; }
 
-h2 {
-    font-size: 1.9rem;
-    font-weight: 900;
-    letter-spacing: -1px;
-    text-transform: uppercase;
-    text-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
-}
+/* INPUT PILL */
+.input-pill { display: flex; background: #000; border: 1px solid #363636; border-radius: 30px; padding: 8px 15px; margin: 15px; gap: 10px; }
+.input-pill input { background: transparent; border: none; color: white; outline: none; font-size: 0.9rem; }
+#user-name { width: 50px; border-right: 1px solid #363636; font-weight: 800; color: var(--neon-cyan); }
+#user-msg { flex: 1; }
+#send-btn { background: none; border: none; color: #0095f6; font-weight: 800; cursor: pointer; }
 
-.badge {
-    background: #fff;
-    color: #000;
-    display: inline-block;
-    padding: 5px 15px;
-    border-radius: 30px;
-    font-weight: 800;
-    font-size: 0.7rem;
-    margin-top: 12px;
-    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
-}
-
-/* CARDS & REGISTRY */
-.links-container {
-    width: 100%;
-    max-width: 420px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.registry-card {
-    background: var(--glass-white);
-    backdrop-filter: blur(25px);
-    border: 1px solid var(--glass-border);
-    border-radius: 32px;
-    padding: 25px;
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
-}
-
-.card-label {
-    font-size: 0.75rem;
-    color: var(--neon-cyan);
-    letter-spacing: 4px;
-    text-align: center;
-    margin-bottom: 20px;
-    font-weight: 800;
-}
-
-.crew-list {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.person {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 1rem;
-    font-weight: 600;
-    padding-bottom: 8px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.role {
-    font-size: 0.65rem;
-    padding: 5px 12px;
-    border-radius: 12px;
-    background: rgba(255, 255, 255, 0.1);
-    color: #bbb;
-    font-weight: 800;
-    text-transform: uppercase;
-}
-
-.role.dev {
-    background: var(--neon-cyan);
-    color: #000;
-    box-shadow: 0 0 10px var(--neon-cyan);
-}
-
-/* VIBRANT ACTION BUTTONS */
-.neon-btn {
-    padding: 22px;
-    border-radius: 24px;
-    text-decoration: none;
-    font-weight: 900;
-    text-align: center;
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    border: 2px solid transparent;
-    font-size: 0.9rem;
-    letter-spacing: 1px;
-}
-
-.whatsapp {
-    background: rgba(37, 211, 102, 0.15);
-    border-color: #25d366;
-    color: #25d366;
-    box-shadow: 0 0 20px rgba(37, 211,
+#call-container { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 99999; background: #000; }
