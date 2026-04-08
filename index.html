@@ -2,209 +2,147 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <meta name="description" content="Core Connect (CC) - The elite collaboration ecosystem.">
-    <meta name="theme-color" content="#000000">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Core Connect</title>
-    
-    <link rel="manifest" href="manifest.json">
-    <link rel="icon" type="image/png" href="icon.png">
-    <link rel="stylesheet" href="style.css?v=14.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cousin Crew Hub | Synthetic</title>
+    <style>
+        :root {
+            --primary-neon: #00f2ff;
+            --secondary-neon: #7000ff;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-    <script src="https://upload-widget.cloudinary.com/latest/global/all.js" type="text/javascript"></script>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            background: radial-gradient(circle at center, #1a1a2e 0%, #0f0f1a 100%);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            text-shadow: 0 0 10px var(--primary-neon);
+        }
+
+        /* Glassmorphism Grid */
+        .hub-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            width: 90%;
+            max-width: 1200px;
+            padding-bottom: 50px;
+        }
+
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s ease, border 0.3s ease;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        .glass-card:hover {
+            transform: translateY(-10px);
+            border: 1px solid var(--primary-neon);
+        }
+
+        .role-tag {
+            display: inline-block;
+            background: var(--secondary-neon);
+            padding: 5px 15px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        /* Countdown Section */
+        #countdown-timer {
+            font-family: 'Courier New', monospace;
+            font-size: 1.5rem;
+            color: var(--primary-neon);
+            margin-top: 10px;
+        }
+
+        /* Responsive Gallery */
+        .gallery-preview {
+            height: 150px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            margin-top: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-style: italic;
+            color: #888;
+        }
+    </style>
 </head>
 <body>
 
-    <div id="auth-overlay" class="auth-screen">
-        <div class="auth-card">
-            <div class="auth-logo">CC</div>
-            <div class="auth-inputs">
-                <input type="text" id="auth-name" placeholder="Full Name">
-                <input type="email" id="auth-email" placeholder="Email">
-                <input type="password" id="auth-pass" placeholder="Password">
-            </div>
-            <div class="auth-btns">
-                <button onclick="handleLogin()" class="auth-primary">Log In</button>
-                <button onclick="handleSignUp()" class="auth-secondary">Create New Account</button>
-            </div>
-            <p id="auth-error" class="error-msg"></p>
-        </div>
-    </div>
-
-    <header class="app-header">
-        <h1 class="glitch-text">CORE CONNECT</h1>
+    <header>
+        <h1>Cousin Crew Hub</h1>
+        <div id="countdown-timer">SYNCING...</div>
     </header>
 
-    <main class="content-wrapper">
-        <button id="pwa-install-btn" class="action-btn" style="display:none; margin-bottom: 10px;">
-            Install App to Home Screen
-        </button>
+    <main class="hub-container" id="members-grid">
+        </main>
 
-        <div class="link-card pro-card">
-            <h3>Core Connect Pro</h3>
-            <p>Access high-probability nodes and HD networking.</p>
-            <button class="upgrade-btn" onclick="alert('Connecting to M-PESA...')">Upgrade Now</button>
-        </div>
+    <script>
+        // Data for the Hub
+        const crew = [
+            { name: "Blessing", role: "Chairman", status: "Active" },
+            { name: "Timon", role: "Developer", status: "Online" },
+            { name: "Darlene", role: "Secretary", status: "Active" },
+            { name: "Jedidiah", role: "Treasure", status: "Active" },
+            { name: "Nimrod", role: "Social Media", status: "Online" }
+        ];
 
-        <div class="link-card">
-            <h3 class="card-label">Active Network Nodes</h3>
-            <div class="node-list">
-                <div class="node"><b>Global Admin</b><span class="status-online">Online</span></div>
-                <div class="node"><b>Dev Cluster</b><span class="status-online">Online</span></div>
-            </div>
-        </div>
+        const grid = document.getElementById('members-grid');
 
-        <button class="action-btn" onclick="window.open('https://whatsapp.com/channel/0029Vb7QkV14dTnBkzndP63f')">
-            Official Announcements
-        </button>
-    </main>
-
-    <nav class="dock-container">
-        <div class="dock">
-            <div class="dock-item" onclick="location.reload()"><img src="https://img.icons8.com/material-outlined/48/ffffff/home.png" alt="Home"></div>
-            <div class="dock-item" onclick="toggleVideos()"><img src="https://img.icons8.com/material-outlined/48/ffffff/video.png" alt="Reels"></div>
-            <div class="dock-item main" onclick="toggleChat()"><img src="https://img.icons8.com/material-outlined/48/ffffff/plus-2-math.png" alt="Post"></div>
-            <div class="dock-item" onclick="startGlobalCall()"><img src="https://img.icons8.com/material-outlined/48/ffffff/video-call.png" alt="Call"></div>
-            <div class="dock-item" onclick="handleLogout()"><img src="https://img.icons8.com/material-outlined/48/ffffff/exit.png" alt="Logout"></div>
-        </div>
-    </nav>
-
-    <div id="chat-box" class="chat-vibe">
-        <div class="chat-header"><span>LOBBY</span><button onclick="toggleChat()">✕</button></div>
-        <div id="chat-window" class="chat-body"></div>
-        <div class="chat-footer">
-            <div class="input-pill">
-                <input type="text" id="user-msg" placeholder="Broadcast a message...">
-                <button id="send-btn">Send</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="video-feed" class="shorts-container">
-        <div class="shorts-header">
-            <button class="upload-btn" onclick="openUploadWidget()">Upload CC</button>
-            <button class="close-btn" onclick="toggleVideos()">✕</button>
-        </div>
-        <div id="shorts-area" class="video-scroll-area"></div>
-    </div>
-
-    <div id="call-container"></div>
-
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getDatabase, ref, push, onChildAdded, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
-        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, updateProfile, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyCXArPj4WErtRkb2qfaDueaWZm9tdAbSGI",
-            authDomain: "street-humor-hub.firebaseapp.com",
-            projectId: "street-humor-hub",
-            storageBucket: "street-humor-hub.firebasestorage.app",
-            messagingSenderId: "1010209458338",
-            appId: "1:1010209458338:web:548911c5d0e36d1e3ceffb",
-            databaseURL: "https://street-humor-hub-default-rtdb.firebaseio.com"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getDatabase(app);
-        const chatRef = ref(db, "global_chat");
-        const shortsRef = ref(db, "crew_shorts");
-
-        let currentUsername = "User";
-
-        // PWA LOGIC
-        let deferredPrompt;
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            document.getElementById('pwa-install-btn').style.display = 'block';
+        // Render Cards
+        crew.forEach(member => {
+            const card = document.createElement('div');
+            card.className = 'glass-card';
+            card.innerHTML = `
+                <div class="role-tag">${member.role}</div>
+                <h2>${member.name}</h2>
+                <p>Status: <span style="color: var(--primary-neon)">${member.status}</span></p>
+                <div class="gallery-preview">Member Asset Loaded</div>
+            `;
+            grid.appendChild(card);
         });
 
-        document.getElementById('pwa-install-btn').onclick = async () => {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                deferredPrompt = null;
-                document.getElementById('pwa-install-btn').style.display = 'none';
-            }
-        };
+        // Simple Countdown logic (Target: Next Reunion)
+        function updateTimer() {
+            const now = new Date().getTime();
+            const target = new Date("Dec 25, 2026 00:00:00").getTime();
+            const diff = target - now;
 
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('sw.js').catch(() => {});
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            
+            document.getElementById('countdown-timer').innerText = 
+                `REUNION IN: ${days}D ${hours}H`;
         }
-
-        // AUTH HANDLERS
-        window.handleSignUp = () => {
-            const n = document.getElementById('auth-name').value;
-            const e = document.getElementById('auth-email').value;
-            const p = document.getElementById('auth-pass').value;
-            createUserWithEmailAndPassword(auth, e, p).then(async (res) => {
-                await updateProfile(res.user, { displayName: n });
-                location.reload();
-            }).catch(err => document.getElementById('auth-error').innerText = err.message);
-        };
-
-        window.handleLogin = () => {
-            const e = document.getElementById('auth-email').value;
-            const p = document.getElementById('auth-pass').value;
-            signInWithEmailAndPassword(auth, e, p).catch(err => document.getElementById('auth-error').innerText = err.message);
-        };
-
-        window.handleLogout = () => signOut(auth).then(() => location.reload());
-
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                document.getElementById('auth-overlay').style.display = 'none';
-                currentUsername = user.displayName || "Member";
-            }
-        });
-
-        // CHAT
-        document.getElementById("send-btn").onclick = () => {
-            const text = document.getElementById("user-msg").value.trim();
-            if (text) {
-                push(chatRef, { name: currentUsername, text, timestamp: serverTimestamp() });
-                document.getElementById("user-msg").value = "";
-            }
-        };
-
-        onChildAdded(chatRef, (snap) => {
-            const d = snap.val();
-            const div = document.createElement("div");
-            div.className = `msg ${d.name === currentUsername ? 'me' : 'others'}`;
-            div.innerHTML = `${d.text}`;
-            document.getElementById("chat-window").appendChild(div);
-            document.getElementById("chat-window").scrollTop = document.getElementById("chat-window").scrollHeight;
-        });
-
-        // UI ACTIONS
-        window.toggleChat = () => document.getElementById('chat-box').classList.toggle('active');
-        window.toggleVideos = () => {
-            const v = document.getElementById('video-feed');
-            v.style.display = (v.style.display === 'flex') ? 'none' : 'flex';
-        };
-
-        window.openUploadWidget = () => {
-            cloudinary.openUploadWidget({ cloudName: "dfx2eovxk", uploadPreset: "icb9pwjk" }, (err, res) => {
-                if (!err && res.event === "success") push(shortsRef, { url: res.info.secure_url, user: currentUsername });
-            });
-        };
-
-        onChildAdded(shortsRef, (snap) => {
-            const data = snap.val();
-            const html = `<div class="short-card"><video src="${data.url}" loop playsinline onclick="this.paused?this.play():this.pause()"></video><div class="video-info"><b>@${data.user}</b></div></div>`;
-            document.getElementById('shorts-area').insertAdjacentHTML('afterbegin', html);
-        });
-
-        window.startGlobalCall = async () => {
-            const c = document.getElementById('call-container'); c.style.display = 'block';
-            const { ZegoUIKitPrebuilt } = await import('https://unpkg.com/@zegocloud/zego-uikit-prebuilt-web@latest/index.js');
-            const kit = ZegoUIKitPrebuilt.generateKitTokenForTest(1623142508, "1b29c844532e8ab6c62ce95f6d452400", "CoreConnect", "U"+Math.random(), currentUsername);
-            ZegoUIKitPrebuilt.create(kit).joinRoom({ container: c, scenario: { mode: ZegoUIKitPrebuilt.GroupCall }, onLeaveRoom: () => location.reload() });
-        };
+        setInterval(updateTimer, 1000);
     </script>
 </body>
 </html>
