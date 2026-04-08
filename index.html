@@ -2,82 +2,73 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="description" content="Core Connect: The elite ecosystem for global collaboration and team networking.">
-    <meta name="theme-color" content="#00f0ff">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="description" content="Core Connect (CC) - The elite collaboration ecosystem.">
+    <meta name="theme-color" content="#000000">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Core Connect | CC Ecosystem</title>
+    <title>Core Connect</title>
     
     <link rel="manifest" href="manifest.json">
-    <link rel="apple-touch-icon" href="icon.png">
     <link rel="icon" type="image/png" href="icon.png">
+    <link rel="stylesheet" href="style.css?v=14.0">
 
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <script src="https://upload-widget.cloudinary.com/latest/global/all.js" type="text/javascript"></script>
-    <link rel="stylesheet" href="style.css?v=13.0">
 </head>
 <body>
-
-    <div class="bg-glow"></div>
 
     <div id="auth-overlay" class="auth-screen">
         <div class="auth-card">
             <div class="auth-logo">CC</div>
-            <h2>CORE CONNECT</h2>
-            <p>Access the global collaboration suite</p>
             <div class="auth-inputs">
                 <input type="text" id="auth-name" placeholder="Full Name">
-                <input type="email" id="auth-email" placeholder="Email Address">
-                <input type="password" id="auth-pass" placeholder="Security Password">
+                <input type="email" id="auth-email" placeholder="Email">
+                <input type="password" id="auth-pass" placeholder="Password">
             </div>
             <div class="auth-btns">
-                <button onclick="handleSignUp()" class="auth-secondary">Join</button>
-                <button onclick="handleLogin()" class="auth-primary">Sign In</button>
+                <button onclick="handleLogin()" class="auth-primary">Log In</button>
+                <button onclick="handleSignUp()" class="auth-secondary">Create New Account</button>
             </div>
             <p id="auth-error" class="error-msg"></p>
         </div>
     </div>
 
     <header class="app-header">
-        <div class="avatar-glow"></div>
         <h1 class="glitch-text">CORE CONNECT</h1>
-        <span class="version-tag">STABLE V13.0</span>
     </header>
 
     <main class="content-wrapper">
-        <button id="pwa-install-btn" class="action-btn" style="display:none; background: var(--cyan); color: #000; margin-bottom: 20px;">
-            INSTALL CC ON HOME SCREEN 📲
+        <button id="pwa-install-btn" class="action-btn" style="display:none; margin-bottom: 10px;">
+            Install App to Home Screen
         </button>
 
         <div class="link-card pro-card">
-            <div class="pro-badge">PREMIUM</div>
-            <h3>Upgrade to Pro</h3>
-            <p>Get verified badges, HD video uploads, and priority support.</p>
-            <button class="upgrade-btn" onclick="alert('Payment Gateway: Connecting to M-PESA/Card...')">GET PRO 🚀</button>
+            <h3>Core Connect Pro</h3>
+            <p>Access high-probability nodes and HD networking.</p>
+            <button class="upgrade-btn" onclick="alert('Connecting to M-PESA...')">Upgrade Now</button>
         </div>
 
         <div class="link-card">
-            <h3 class="card-label">ACTIVE NODES</h3>
+            <h3 class="card-label">Active Network Nodes</h3>
             <div class="node-list">
-                <div class="node"><b>Administrator</b><span class="status-online">Online</span></div>
-                <div class="node"><b>Operations</b><span class="status-online">Online</span></div>
-                <div class="node"><b>Development</b><span class="status-online">Online</span></div>
+                <div class="node"><b>Global Admin</b><span class="status-online">Online</span></div>
+                <div class="node"><b>Dev Cluster</b><span class="status-online">Online</span></div>
             </div>
         </div>
 
         <button class="action-btn" onclick="window.open('https://whatsapp.com/channel/0029Vb7QkV14dTnBkzndP63f')">
-            OFFICIAL ANNOUNCEMENTS
+            Official Announcements
         </button>
     </main>
 
     <nav class="dock-container">
         <div class="dock">
-            <div class="dock-item" onclick="location.reload()"><img src="https://img.icons8.com/fluency/48/home.png" alt="Home"></div>
-            <div class="dock-item" onclick="toggleVideos()"><img src="https://img.icons8.com/fluency/48/video-playlist.png" alt="Feed"></div>
-            <div class="dock-item main" onclick="toggleChat()"><img src="https://img.icons8.com/fluency/48/speech-bubble.png" alt="Chat"><div class="ping"></div></div>
-            <div class="dock-item" onclick="startGlobalCall()"><img src="https://img.icons8.com/fluency/48/video-call.png" alt="Call"></div>
-            <div class="dock-item" onclick="handleLogout()"><img src="https://img.icons8.com/fluency/48/exit.png" alt="Exit"></div>
+            <div class="dock-item" onclick="location.reload()"><img src="https://img.icons8.com/material-outlined/48/ffffff/home.png" alt="Home"></div>
+            <div class="dock-item" onclick="toggleVideos()"><img src="https://img.icons8.com/material-outlined/48/ffffff/video.png" alt="Reels"></div>
+            <div class="dock-item main" onclick="toggleChat()"><img src="https://img.icons8.com/material-outlined/48/ffffff/plus-2-math.png" alt="Post"></div>
+            <div class="dock-item" onclick="startGlobalCall()"><img src="https://img.icons8.com/material-outlined/48/ffffff/video-call.png" alt="Call"></div>
+            <div class="dock-item" onclick="handleLogout()"><img src="https://img.icons8.com/material-outlined/48/ffffff/exit.png" alt="Logout"></div>
         </div>
     </nav>
 
@@ -86,15 +77,15 @@
         <div id="chat-window" class="chat-body"></div>
         <div class="chat-footer">
             <div class="input-pill">
-                <input type="text" id="user-msg" placeholder="Broadcast a message..." maxlength="120">
-                <button id="send-btn">SEND</button>
+                <input type="text" id="user-msg" placeholder="Broadcast a message...">
+                <button id="send-btn">Send</button>
             </div>
         </div>
     </div>
 
     <div id="video-feed" class="shorts-container">
         <div class="shorts-header">
-            <button class="upload-btn" onclick="openUploadWidget()">UPLOAD CC</button>
+            <button class="upload-btn" onclick="openUploadWidget()">Upload CC</button>
             <button class="close-btn" onclick="toggleVideos()">✕</button>
         </div>
         <div id="shorts-area" class="video-scroll-area"></div>
@@ -125,36 +116,31 @@
 
         let currentUsername = "User";
 
-        // 1. PWA INSTALL LOGIC (CHROME)
+        // PWA LOGIC
         let deferredPrompt;
-        const installBtn = document.getElementById('pwa-install-btn');
-
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredPrompt = e;
-            installBtn.style.display = 'block';
+            document.getElementById('pwa-install-btn').style.display = 'block';
         });
 
-        installBtn.onclick = async () => {
+        document.getElementById('pwa-install-btn').onclick = async () => {
             if (deferredPrompt) {
                 deferredPrompt.prompt();
-                const { outcome } = await deferredPrompt.userChoice;
-                if (outcome === 'accepted') installBtn.style.display = 'none';
                 deferredPrompt = null;
+                document.getElementById('pwa-install-btn').style.display = 'none';
             }
         };
 
-        // 2. SERVICE WORKER
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('sw.js').catch(() => {});
         }
 
-        // 3. AUTHENTICATION
+        // AUTH HANDLERS
         window.handleSignUp = () => {
             const n = document.getElementById('auth-name').value;
             const e = document.getElementById('auth-email').value;
             const p = document.getElementById('auth-pass').value;
-            if(!n || !e || p.length < 6) return alert("Details required. Password 6+ chars.");
             createUserWithEmailAndPassword(auth, e, p).then(async (res) => {
                 await updateProfile(res.user, { displayName: n });
                 location.reload();
@@ -173,12 +159,10 @@
             if (user) {
                 document.getElementById('auth-overlay').style.display = 'none';
                 currentUsername = user.displayName || "Member";
-            } else {
-                document.getElementById('auth-overlay').style.display = 'flex';
             }
         });
 
-        // 4. CHAT ENGINE
+        // CHAT
         document.getElementById("send-btn").onclick = () => {
             const text = document.getElementById("user-msg").value.trim();
             if (text) {
@@ -191,12 +175,12 @@
             const d = snap.val();
             const div = document.createElement("div");
             div.className = `msg ${d.name === currentUsername ? 'me' : 'others'}`;
-            div.innerHTML = `<b>${d.name}</b> ${d.text}`;
+            div.innerHTML = `${d.text}`;
             document.getElementById("chat-window").appendChild(div);
             document.getElementById("chat-window").scrollTop = document.getElementById("chat-window").scrollHeight;
         });
 
-        // 5. VIDEO & UI HELPERS
+        // UI ACTIONS
         window.toggleChat = () => document.getElementById('chat-box').classList.toggle('active');
         window.toggleVideos = () => {
             const v = document.getElementById('video-feed');
