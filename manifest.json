@@ -1,33 +1,158 @@
-{
-  "name": "Core Connect",
-  "short_name": "CC Hub",
-  "description": "The elite ecosystem for global collaboration and team networking.",
-  "start_url": "index.html",
-  "display": "standalone",
-  "orientation": "portrait",
-  "background_color": "#080808",
-  "theme_color": "#00f0ff",
-  "icons": [
-    {
-      "src": "icon.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "icon.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
-    }
-  ],
-  "screenshots": [
-    {
-      "src": "icon.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "label": "Core Connect Dashboard"
-    }
-  ],
-  "categories": ["productivity", "social", "business"]
+:root {
+    /* Color Palette */
+    --primary-neon: #00f2ff;
+    --secondary-neon: #7000ff;
+    --bg-dark: #08080c;
+    --glass-bg: rgba(255, 255, 255, 0.03);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --text-dim: #a0a0ba;
+}
+
+* {
+    box-sizing: border-box;
+    cursor: default;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+    background-color: var(--bg-dark);
+    /* Animated mesh gradient background */
+    background: radial-gradient(at top left, #16162d, transparent),
+                radial-gradient(at bottom right, #0f051a, transparent),
+                var(--bg-dark);
+    color: white;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Header & Typography */
+header {
+    margin-top: 50px;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+h1 {
+    font-size: clamp(1.5rem, 5vw, 3rem);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 8px;
+    margin: 0;
+    background: linear-gradient(to right, var(--primary-neon), var(--secondary-neon));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 15px rgba(0, 242, 255, 0.3));
+}
+
+#countdown-timer {
+    margin-top: 15px;
+    font-family: 'monospace';
+    letter-spacing: 2px;
+    color: var(--text-dim);
+    font-size: 0.9rem;
+    border-top: 1px solid var(--glass-border);
+    display: inline-block;
+    padding-top: 10px;
+}
+
+/* The Layout Grid */
+.hub-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    width: 90%;
+    max-width: 1200px;
+    perspective: 1000px; /* For 3D hover effects */
+}
+
+/* Glassmorphism Cards */
+.glass-card {
+    position: relative;
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    padding: 30px;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.glass-card:hover {
+    transform: translateY(-10px) rotateX(5deg);
+    border-color: var(--primary-neon);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4),
+                0 0 20px rgba(0, 242, 255, 0.1);
+}
+
+/* Card Elements */
+.role-tag {
+    background: linear-gradient(45deg, var(--secondary-neon), #4e00b3);
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    display: inline-block;
+}
+
+h2 {
+    margin: 10px 0;
+    font-size: 1.8rem;
+    letter-spacing: 1px;
+}
+
+.status-dot {
+    height: 8px;
+    width: 8px;
+    background-color: var(--primary-neon);
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 8px;
+    box-shadow: 0 0 10px var(--primary-neon);
+    animation: pulse 2s infinite;
+}
+
+.gallery-preview {
+    margin-top: 25px;
+    height: 180px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
+    border: 1px dashed var(--glass-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-dim);
+    font-size: 0.8rem;
+}
+
+/* Animations */
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.4; }
+    100% { opacity: 1; }
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-dark);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--glass-border);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-neon);
 }
